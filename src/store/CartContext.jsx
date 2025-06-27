@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import toast from "react-hot-toast";
 
 const cartContext = createContext(null);
 
@@ -18,6 +19,7 @@ export function CartProvider({ children }) {
         return [...prev, { ...item, count: 1 }];
       }
     });
+    toast.success(`${item.name} was added to your shopping cart.`);
   }
 
   return <cartContext.Provider value={{ cartItems, addToCart }}>{children}</cartContext.Provider>;
