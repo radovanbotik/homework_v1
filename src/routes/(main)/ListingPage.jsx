@@ -1,4 +1,4 @@
-import { GridList } from "../../components/listing-page/GridList";
+import { ProductList } from "../../components/listing-page/ProductList";
 import { Header } from "../../components/ui/Header";
 import { data } from "../../data/data";
 
@@ -9,7 +9,7 @@ export default function ListingPage() {
   return (
     <div>
       <Header title={`Fingertips\nStore`} />
-      <GridList items={items} />
+      <ProductList items={items} />
     </div>
   );
 }
