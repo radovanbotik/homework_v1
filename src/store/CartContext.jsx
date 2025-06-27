@@ -27,7 +27,15 @@ export function CartProvider({ children }) {
     setIsShowCart(prev => !prev);
   }
 
-  return <cartContext.Provider value={{ cartItems, showCart, addToCart, toggleCart }}>{children}</cartContext.Provider>;
+  function closeCart() {
+    setIsShowCart(false);
+  }
+
+  return (
+    <cartContext.Provider value={{ cartItems, showCart, addToCart, toggleCart, closeCart }}>
+      {children}
+    </cartContext.Provider>
+  );
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

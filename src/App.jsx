@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from "react-router";
-import "./App.css";
 import RootLayout from "./routes/Layout";
 import HomePage from "./routes/(main)/HomePage";
 import ListingPage from "./routes/(main)/ListingPage";
