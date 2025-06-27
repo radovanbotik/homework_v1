@@ -6,6 +6,7 @@ import { useCart } from "../../store/CartContext";
 import { getItemCount, getTotal } from "../../util/shoppingCart";
 import { useNavigate } from "react-router";
 import { cn } from "../../util/cn";
+import { Triangle } from "../ui/Triangle";
 
 export function ShoppingCard({ show }) {
   const navigate = useNavigate();
@@ -22,8 +23,11 @@ export function ShoppingCard({ show }) {
   const totalCount = getItemCount(cartItems);
 
   return (
-    <Card className={cn("bg-white w-72 text-black z-10 absolute top-14 right-2", show ? "block" : "hidden")}>
-      <h3 className="text-base font-semibold text-gray-900">You have {totalCount} items in your cart!</h3>
+    <Card className={cn("bg-white w-72 text-black z-10 absolute top-14 right-2 rounded-sm", show ? "block" : "hidden")}>
+      <Triangle />
+      <h3 className="text-base font-semibold text-gray-900">
+        You have {totalCount} {totalCount > 1 ? "items" : "item"} in your cart!
+      </h3>
       <Divider className="pt-5" />
       <div>
         <table className="min-w-full">
