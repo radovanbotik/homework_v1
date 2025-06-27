@@ -4,7 +4,7 @@ import Container from "../ui/Container";
 
 export function Navbar() {
   return (
-    <Container className={"bg-[#233239]"}>
+    <Container className={"bg-[#233239] "}>
       <div className="flex w-full relative items-center h-12 text-white">
         <Button
           href={"/"}
