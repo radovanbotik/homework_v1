@@ -6,6 +6,8 @@ import { formatPrice } from "../../util/formatPrice";
 import { Button } from "../ui/Button";
 import { useCart } from "../../store/CartContext";
 import { getItemCount, getTotal } from "../../util/shoppingCart";
+import { MenuItem } from "@headlessui/react";
+import { useNavigate } from "react-router";
 
 function ShoppingCartButton(props, ref) {
   const { cartItems } = useCart();
@@ -23,6 +25,7 @@ function ShoppingCartButton(props, ref) {
 }
 
 function ShoppingCartCard() {
+  const navigate = useNavigate();
   const { cartItems } = useCart();
 
   if (cartItems.length === 0)
@@ -82,13 +85,23 @@ function ShoppingCartCard() {
         </thead>
       </table>
       <Divider className="pt-5" />
-      <Button className="w-full" href="/checkout">
-        Checkout
-      </Button>
+      <MenuItem>
+        {({ close }) => (
+          <Button
+            className="w-full"
+            onClick={() => {
+              close();
+              navigate("/checkout");
+            }}
+          >
+            Checkout
+          </Button>
+        )}
+      </MenuItem>
     </Card>
   );
 }
 
 export function ShoppingCart() {
-  return <Modal Button={<ShoppingCartButton />} Cart={<ShoppingCartCard />} />;
+  return <Modal Button={<ShoppingCartButton />} Cart={ShoppingCartCard} />;
 }

@@ -10,7 +10,6 @@ export function Modal({ Button, Cart }) {
           {Cart}
         </MenuItems>
       </div>
-      <div></div>
     </Menu>
   );
 }
