@@ -8,13 +8,13 @@ import { useNavigate } from "react-router";
 import { cn } from "../../util/cn";
 import { Triangle } from "../ui/Triangle";
 
-export function ShoppingCard({ show }) {
+export function ShoppingCard() {
   const navigate = useNavigate();
-  const { cartItems } = useCart();
+  const { cartItems, showCart } = useCart();
 
   if (cartItems.length === 0)
     return (
-      <Card className={cn("bg-white w-72 text-black z-10 absolute top-14 right-2", show ? "block" : "hidden")}>
+      <Card className={cn("bg-white w-72 text-black z-10 absolute top-14 right-2", showCart ? "block" : "hidden")}>
         <p>very empty</p>
       </Card>
     );
@@ -23,7 +23,9 @@ export function ShoppingCard({ show }) {
   const totalCount = getItemCount(cartItems);
 
   return (
-    <Card className={cn("bg-white w-72 text-black z-10 absolute top-14 right-2 rounded-sm", show ? "block" : "hidden")}>
+    <Card
+      className={cn("bg-white w-72 text-black z-10 absolute top-14 right-2 rounded-sm", showCart ? "block" : "hidden")}
+    >
       <Triangle />
       <h3 className="text-base font-semibold text-gray-900">
         You have {totalCount} {totalCount > 1 ? "items" : "item"} in your cart!

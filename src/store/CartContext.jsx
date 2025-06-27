@@ -5,6 +5,7 @@ const cartContext = createContext(null);
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
+  const [showCart, setIsShowCart] = useState(false);
 
   function addToCart(item) {
     setCartItems(prev => {
@@ -22,7 +23,11 @@ export function CartProvider({ children }) {
     toast.success(`${item.name} was added to your shopping cart.`);
   }
 
-  return <cartContext.Provider value={{ cartItems, addToCart }}>{children}</cartContext.Provider>;
+  function toggleCart() {
+    setIsShowCart(prev => !prev);
+  }
+
+  return <cartContext.Provider value={{ cartItems, showCart, addToCart, toggleCart }}>{children}</cartContext.Provider>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
