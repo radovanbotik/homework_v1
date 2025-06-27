@@ -6,12 +6,14 @@ import ListingPage from "./routes/(main)/ListingPage";
 import ShoppingCart from "./routes/(main)/ShoppingCart";
 import { CartProvider } from "./store/CartContext";
 import Checkout from "./routes/(main)/Checkout";
+import ErrorPage from "./routes/Error";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
       Component: RootLayout,
+      errorElement: <ErrorPage />,
       children: [
         { index: true, Component: HomePage },
         { path: "listing-page", Component: ListingPage },
