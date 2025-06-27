@@ -9,33 +9,58 @@ export function Tooltip({ content }) {
   const card = useRef(null);
   const [anchorCoordinates, setAnchorCoordinates] = useState({ x: 0, y: 0 });
   const [showTooltip, setShowTooltip] = useState(false);
-
   const GAP = 10;
-
+  const delay = useRef();
   /*
     element.getBoundingClientRect().x - Same as left, the DISTANCE from the LEFT of the VIEWPORT to the LEFT of the ELEMENT 
     element.getBoundingClientRect().y - Same as top, the DISTANCE from the TOP of the VIEWPORT to the TOP of the ELEMENT 
     element.getBoundingClientRect().width - Width of the element (including padding and border, but not margin)
     element.getBoundingClientRect().height - Height of the element
   
-    1. we need to add width of the anchoring element to the x value of the anchoring element so the card can be rendered right next to the anchoring element 
-    2. getBoundingClientRect().y is distance from top of viewport (DOCUMENT START not WINDOW start) - we need add window.scroll to account for offset
+    1.  we need to add width of the anchoring element to the x value of the anchoring element so the card can be rendered right next to the anchoring element 
+    2.  getBoundingClientRect().y is distance from top of viewport (DOCUMENT START not WINDOW start) - we need add window.scroll to account for offset
+    3.  add logic to render card in middle if there is not enough space on the right
+    4.  handle issue with flickering. there is tiny spot, mainly on small screens where card is intersecting with button. hovering over this area will cause a flickering
+        introducing delay helps to avoid this problem
+    5.  when we start on small screen and hover to show tooltip the centering logic is bugged. it displays card on the left however not centered as we wanted it.
+        - we are getting dimensions of card through getboundingclientrect before it is painted. 
   */
 
   function getCoordinates() {
     const anchorRect = anchoringElement.current.getBoundingClientRect();
-    const cardX = anchorRect.x + anchorRect.width + GAP;
-    const cardY = anchorRect.y + window.scrollY;
-    setAnchorCoordinates({ x: cardX, y: cardY });
+
+    requestAnimationFrame(() => {
+      if (!card.current) return;
+
+      let cardX = anchorRect.x + anchorRect.width + GAP;
+      let cardY = anchorRect.y + window.scrollY;
+
+      const anchorRight = anchorRect.right;
+      const spaceOnRight = window.innerWidth - anchorRight;
+      const anchorLeft = anchorRect.left;
+      const spaceOnLeft = window.innerWidth - anchorLeft;
+
+      /* render in middle if not enough space on sides */
+      const cardWidth = card.current.getBoundingClientRect().width;
+      if (spaceOnRight < cardWidth || spaceOnLeft < cardWidth) {
+        cardX = window.innerWidth / 2 - cardWidth / 2;
+      }
+
+      console.log(cardX, cardY, window.innerWidth, window.innerHeight);
+      setAnchorCoordinates({ x: cardX, y: cardY });
+    });
   }
 
   function handleMouseEnter() {
+    clearTimeout(delay.current);
     getCoordinates();
     setShowTooltip(true);
   }
 
   function handleMouseLeave() {
-    setShowTooltip(false);
+    delay.current = setTimeout(() => {
+      setShowTooltip(false);
+    }, 100);
   }
 
   //run  once on mount, or when showTooltip is true (mousenter)

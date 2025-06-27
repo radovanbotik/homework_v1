@@ -4,11 +4,39 @@ import { isBool } from "../../util/isBool";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
 import Container from "../ui/Container";
-import { Tooltip } from "../ui/Tooltip";
+import tooltipStatic from "../../assets/tooltip-static.svg";
+import tooltipHover from "../../assets/tooltip-hover.svg";
+import { cn } from "../../util/cn";
 
-export function TooltipCard({ item }) {
+function TooltipButton() {
   return (
-    <Card className="max-w-80 z-[100] relative rounded-none overflow-hidden isolate">
+    <div className="isolate">
+      <button role="button" className={"z-10 w-6 h-6 group absolute right-2 top-2"}>
+        <img
+          src={tooltipStatic}
+          alt="tooltip"
+          aria-hidden={true}
+          className="w-full h-full object-cover group-hover:hidden block pointer-events-none"
+        />
+        <img
+          src={tooltipHover}
+          alt="tooltip"
+          aria-hidden={true}
+          className="w-full h-full object-cover hidden group-hover:block pointer-events-none"
+        />
+      </button>
+    </div>
+  );
+}
+
+function TooltipCard({ item, className }) {
+  return (
+    <Card
+      className={cn(
+        "sm:max-w-80 absolute rounded-none overflow-hidden isolate hidden group-hover:block z-50 w-[calc(100%-3rem)] sm:w-80 right-12 md:left-full top-0",
+        className
+      )}
+    >
       <div className="size-full absolute inset-0 bg-[#FDF1D7]/95 -z-10"></div>
       <div className="flex gap-2.5 z-10">
         <div className="h-20 w-20 relative shrink-0 -ml-4">
@@ -48,13 +76,21 @@ export function TooltipCard({ item }) {
   );
 }
 
-export function ProductCard({ item }) {
+function ProductCard({ item, index }) {
   const { addToCart } = useCart();
   const price = formatPrice({ price: item.price });
 
+  // for small screens - check if index is odd or even if odd render on right if even render on left
+  const isOdd = (index + 1) % 2 !== 0;
+
   return (
     <Card className="bg-[#FCFCFC] relative sm:py-5">
-      <Tooltip content={<TooltipCard item={item} />} />
+      <div className="absolute top-2 w-full right-2">
+        <div className="relative w-full  group">
+          <TooltipButton />
+          <TooltipCard item={item} className={`${isOdd ? "sm:left-full" : "sm:right-12"}`} />
+        </div>
+      </div>
       <div className="aspect-square w-3/5 mx-auto relative mb-5">
         <img
           src={item.imageUrl}
@@ -75,9 +111,9 @@ export function GridList({ items }) {
   return (
     <Container className="max-w-4xl">
       <ul role="list" className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10">
-        {items.map(item => (
+        {items.map((item, index) => (
           <li key={item.id}>
-            <ProductCard item={item} />
+            <ProductCard item={item} index={index} />
           </li>
         ))}
       </ul>

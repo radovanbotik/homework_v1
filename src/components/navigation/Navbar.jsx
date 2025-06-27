@@ -8,7 +8,7 @@ export function Navbar() {
       <div className="flex w-full relative items-center h-12 text-white">
         <Button
           href={"/listing-page"}
-          className="static sm:absolute sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 bg-transparent text-xl"
+          className="static sm:absolute sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 bg-transparent text-xl hover:bg-inherit"
         >
           HALLO WORLD
         </Button>
