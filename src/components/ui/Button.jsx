@@ -7,7 +7,7 @@ export function Button({ children, className, onClick, href, ...props }) {
       <Link
         to={href}
         className={cn(
-          "rounded-md bg-[#E60000] p-3 text-xs text-white shadow-sm hover:bg-[#e60000d5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E60000] inline-flex items-center justify-center",
+          "rounded-md bg-[#E60000] active:scale-95 transition-all p-3 text-xs text-white shadow-sm hover:bg-[#e60000d5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E60000] inline-flex items-center justify-center",
           className
         )}
         {...props}
@@ -22,7 +22,7 @@ export function Button({ children, className, onClick, href, ...props }) {
       type="button"
       onClick={onClick}
       className={cn(
-        "rounded-md bg-[#E60000] p-3 text-xs text-white shadow-sm hover:bg-[#e60000d5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E60000]",
+        "rounded-md bg-[#E60000] active:scale-95 transition-all p-3 text-xs text-white shadow-sm hover:bg-[#e60000d5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E60000]",
         className
       )}
       {...props}
