@@ -1,14 +1,13 @@
 import { Button } from "../../components/ui/Button";
+import { Header } from "../../components/ui/Header";
 
 export default function HomePage() {
   return (
-    <div className="w-full flex">
-      <div className="grid place-content-center mx-auto p-16">
-        <h2>Welcome, to our store</h2>
-        <Button href={"/listing-page"} relative="path">
-          Continue
-        </Button>
-      </div>
+    <div className="w-full flex flex-col h-[200vh]">
+      <Header title={"Welcome to our store"}></Header>
+      <Button href={"/listing-page"} relative="path" className={"mx-auto"}>
+        Continue
+      </Button>
     </div>
   );
 }
