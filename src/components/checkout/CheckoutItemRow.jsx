@@ -1,10 +1,7 @@
-import { useCart } from "../../store/CartContext";
 import { formatPrice } from "../../util/formatPrice";
-import { Button } from "../ui/Button";
+import { CheckoutItemButtons } from "./CheckoutItemButtons";
 
 export function CheckoutItemRow({ item }) {
-  const { removeFromCart, destroyCartItem, addToCart } = useCart();
-
   return (
     <li key={item.id} className="flex py-3">
       <img
@@ -18,23 +15,7 @@ export function CheckoutItemRow({ item }) {
           <p>{item.name}</p>
           <p>{formatPrice({ price: item.price * item.count })}</p>
         </div>
-        <div className="flex justify-between items-center">
-          <div className="flex gap-2 items-center text-xs">
-            <button className="p-2  text-xs" onClick={() => addToCart(item)}>
-              +
-            </button>
-            <span>{item.count}</span>
-            <button className="p-2 text-xs" onClick={() => removeFromCart(item)}>
-              -
-            </button>
-          </div>
-          <Button
-            className="bg-transparent hover:bg-transparent shadow-none text-red-500 px-0"
-            onClick={() => destroyCartItem(item)}
-          >
-            Remove
-          </Button>
-        </div>
+        <CheckoutItemButtons item={item} />
       </div>
     </li>
   );

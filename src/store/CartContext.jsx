@@ -9,8 +9,6 @@ export function CartProvider({ children }) {
   const [anchorCoordinates, setAnchorCoordinates] = useState({});
   const CartToggleRef = useRef(null);
 
-  console.log(cartItems);
-
   function addToCart(item) {
     setCartItems(prev => {
       const existingItem = prev.find(i => i.id === item.id);
