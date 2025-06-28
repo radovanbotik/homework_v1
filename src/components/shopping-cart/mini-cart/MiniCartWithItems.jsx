@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useCart } from "../../../store/CartContext";
 import { Button } from "../../ui/Button";
 import { Divider } from "../../ui/Divider";
@@ -7,7 +7,11 @@ import { MiniCartTotal } from "./MiniCartTotal";
 
 export function MiniCartWithItems({ totalCount, cartItems, totalPrice }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { closeCart } = useCart();
+
+  console.log(location);
+  const isCheckout = location.pathname === "/checkout";
 
   return (
     <>
@@ -22,15 +26,17 @@ export function MiniCartWithItems({ totalCount, cartItems, totalPrice }) {
         <Divider className="pt-5" />
       </div>
 
-      <Button
-        className="w-full pointer-events-auto"
-        onClick={() => {
-          closeCart();
-          navigate("/checkout");
-        }}
-      >
-        Checkout
-      </Button>
+      {!isCheckout && (
+        <Button
+          className="w-full pointer-events-auto"
+          onClick={() => {
+            closeCart();
+            navigate("/checkout");
+          }}
+        >
+          Checkout
+        </Button>
+      )}
     </>
   );
 }
