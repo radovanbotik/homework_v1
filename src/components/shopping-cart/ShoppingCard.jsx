@@ -10,7 +10,9 @@ import { Triangle } from "../ui/Triangle";
 
 export function ShoppingCard() {
   const navigate = useNavigate();
-  const { cartItems, showCart } = useCart();
+  const { cartItems, showCart, anchorCoordinates } = useCart();
+
+  console.log(anchorCoordinates);
 
   const totalPrice = getTotal(cartItems);
   const totalCount = getItemCount(cartItems);
@@ -18,8 +20,9 @@ export function ShoppingCard() {
   return (
     <Card
       id="cart"
-      className={cn("bg-white w-72 text-black z-50 absolute top-14 right-2 rounded-sm ", showCart ? "block" : "hidden")}
+      className={cn("bg-white w-72 text-black z-50 absolute top-14 rounded-sm ", showCart ? "block" : "hidden")}
       onMouseDown={e => e.stopPropagation()}
+      style={{ right: anchorCoordinates.right }}
     >
       <Triangle />
       {cartItems.length === 0 ? (

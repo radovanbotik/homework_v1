@@ -4,11 +4,12 @@ import { useCart } from "../../store/CartContext";
 import { getItemCount } from "../../util/shoppingCart";
 
 export function ShoppingButton({ ...props }) {
-  const { cartItems, toggleCart } = useCart();
+  const { cartItems, toggleCart, shoppingButtonRef } = useCart();
   const totalCount = getItemCount(cartItems);
 
   return (
     <button
+      ref={shoppingButtonRef}
       id="shopping-button"
       className="inline-flex gap-2 items-center text-sm ml-auto z-50 top-0 right-0 text-white relative"
       onMouseDown={toggleCart}

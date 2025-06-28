@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useLayoutEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 const cartContext = createContext(null);
@@ -6,6 +6,8 @@ const cartContext = createContext(null);
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   const [showCart, setIsShowCart] = useState(false);
+  const shoppingButtonRef = useRef(null);
+  const [anchorCoordinates, setAnchorCoordinates] = useState({});
 
   function addToCart(item) {
     setCartItems(prev => {
@@ -23,7 +25,15 @@ export function CartProvider({ children }) {
     toast.success(`${item.name} was added to your shopping cart.`);
   }
 
-  function toggleCart() {
+  function getAnchorCoordinates() {
+    const anchorRect = shoppingButtonRef.current.getBoundingClientRect();
+    console.log(shoppingButtonRef.current);
+    const rightOffScreen = window.innerWidth - anchorRect.right;
+    setAnchorCoordinates(prev => ({ ...prev, x: anchorRect.x, width: anchorRect.width, right: rightOffScreen }));
+  }
+
+  function toggleCart(e) {
+    getAnchorCoordinates(e);
     setIsShowCart(prev => !prev);
   }
 
@@ -31,8 +41,20 @@ export function CartProvider({ children }) {
     setIsShowCart(false);
   }
 
+  useLayoutEffect(() => {
+    if (showCart) {
+      window.addEventListener("resize", getAnchorCoordinates);
+      return () => {
+        window.removeEventListener("resize", getAnchorCoordinates);
+      };
+    }
+    return () => {};
+  }, [showCart]);
+
   return (
-    <cartContext.Provider value={{ cartItems, showCart, addToCart, toggleCart, closeCart }}>
+    <cartContext.Provider
+      value={{ anchorCoordinates, cartItems, showCart, addToCart, toggleCart, closeCart, shoppingButtonRef }}
+    >
       {children}
     </cartContext.Provider>
   );
