@@ -7,9 +7,9 @@ export default function ListingPage() {
   const items = data;
 
   return (
-    <div className="bg-transparent">
+    <>
       <Header title={`Fingertips\nStore`} />
       <ProductList items={items} />
-    </div>
+    </>
   );
 }
