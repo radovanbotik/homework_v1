@@ -23,7 +23,7 @@ export function ShoppingCard() {
     >
       <Triangle />
       {cartItems.length === 0 ? (
-        <p className="pointer-events-none">very empty</p>
+        <h3 className="text-base font-semibold text-gray-900">Your shopping cart is empty</h3>
       ) : (
         <>
           <div className="pointer-events-none">

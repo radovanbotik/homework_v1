@@ -27,19 +27,19 @@ export function ProductCard({ item }) {
   }
 
   return (
-    <Card className="bg-[#FCFCFC] relative sm:py-5">
+    <Card className="bg-[#FCFCFC] rounded-md relative sm:pb-3 sm:pt-6 max-w-sm sm:max-w-none mx-auto sm:mx-0">
       <TooltipButton onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
       <TooltipCard item={item} isShown={showTooltip} isLeft={isLeft} />
-      <div className="aspect-square w-3/5 mx-auto relative mb-5">
+      <div className="aspect-square w-4/5 mx-auto relative mb-5">
         <img
           src={item.imageUrl}
           alt={`image preview of product ${item.name}`}
           className="block border-0 w-full h-full object-scale-down absolute left-0 top-0 inset-0 "
         />
       </div>
-      <div className="text-[#1D1D39] lg:text-sm font-medium mt-1">{item.name}</div>
-      <div className="text-[#1D1D39] lg:text-xs font-bold mt-1">{price}</div>
-      <Button className="w-full mt-2" onClick={() => addToCart(item)}>
+      <div className="text-[#1D1D39] lg:text-base font-medium mb-1">{item.name}</div>
+      <div className="text-[#1D1D39] lg:text-sm font-bold mb-1">{price}</div>
+      <Button className="w-full mt-2 py-2.5" onClick={() => addToCart(item)}>
         Add to Cart
       </Button>
     </Card>
