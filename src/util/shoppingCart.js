@@ -15,3 +15,7 @@ export function getTotal(items) {
   }, 0);
   return total;
 }
+
+export function arrayFromNumber(number) {
+  return Array.from({ length: number }, (v, index) => ({ id: index, value: index + 1, label: index + 1 }));
+}

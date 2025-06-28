@@ -18,7 +18,7 @@ export function MiniCartTable({ cartItems }) {
       </thead>
       <tbody className="">
         {cartItems.map(item => (
-          <MiniCartItemRow item={item} />
+          <MiniCartItemRow item={item} key={item.id} />
         ))}
       </tbody>
     </table>

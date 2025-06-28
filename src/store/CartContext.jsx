@@ -9,6 +9,8 @@ export function CartProvider({ children }) {
   const [anchorCoordinates, setAnchorCoordinates] = useState({});
   const CartToggleRef = useRef(null);
 
+  console.log(cartItems);
+
   function addToCart(item) {
     setCartItems(prev => {
       const existingItem = prev.find(i => i.id === item.id);
@@ -23,6 +25,39 @@ export function CartProvider({ children }) {
       }
     });
     toast.success(`${item.name} was added to your shopping cart.`);
+  }
+
+  function destroyCartItem(item) {
+    setCartItems(prev => {
+      return prev.filter(i => i.id !== item.id);
+    });
+    toast.success(`${item.name} was removed from your shopping cart.`);
+  }
+
+  function removeFromCart(item) {
+    setCartItems(prev => {
+      return (
+        prev
+          .map(i => {
+            //check for the specific item which count we want to reduce
+            if (i.id === item.id) {
+              //if count is bigger than 1
+              if (i.count > 1) {
+                //return object and reduce the count
+                return { ...i, count: i.count - 1 };
+              } else {
+                //if it is smaller than one return null instead of object
+                return null;
+              }
+            }
+            //if it is not matching it means it is not our item, it is other item in cartItems array. return to preserve it
+            return i;
+          })
+          //remove nulls from array
+          .filter(Boolean)
+      );
+    });
+    toast.success(`${item.name} was removed from your shopping cart.`);
   }
 
   function getAnchorCoordinates() {
@@ -53,7 +88,17 @@ export function CartProvider({ children }) {
 
   return (
     <cartContext.Provider
-      value={{ anchorCoordinates, cartItems, showCart, addToCart, toggleCart, closeCart, CartToggleRef }}
+      value={{
+        anchorCoordinates,
+        cartItems,
+        showCart,
+        addToCart,
+        toggleCart,
+        closeCart,
+        removeFromCart,
+        destroyCartItem,
+        CartToggleRef,
+      }}
     >
       {children}
     </cartContext.Provider>

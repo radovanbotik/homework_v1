@@ -4,7 +4,9 @@ import Container from "../ui/Container";
 
 export function Navbar() {
   return (
-    <Container className={"bg-[#233239] flex w-full relative items-center h-12 text-white"}>
+    <Container
+      className={"bg-[#233239] flex w-full relative items-center h-12 text-white //fixed //top-0 //left-0 //z-20"}
+    >
       <Button
         href={"/"}
         className="static sm:absolute sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 bg-transparent text-sm hover:bg-inherit"

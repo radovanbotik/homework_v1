@@ -10,7 +10,6 @@ export function MiniCartWithItems({ totalCount, cartItems, totalPrice }) {
   const location = useLocation();
   const { closeCart } = useCart();
 
-  console.log(location);
   const isCheckout = location.pathname === "/checkout";
 
   return (
