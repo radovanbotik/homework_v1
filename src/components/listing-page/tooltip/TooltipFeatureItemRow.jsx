@@ -2,7 +2,7 @@ import { isBool } from "../../../util/isBool";
 
 export function TooltipFeatureItemRow({ feature }) {
   return (
-    <li key={feature.name} className="space-y-1">
+    <li className="space-y-1">
       <h4 className="font-semibold">{feature.name}</h4>
       <div>
         <ul className="space-y-0.5">
