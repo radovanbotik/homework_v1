@@ -1,8 +1,8 @@
 import { useCart } from "../../store/CartContext";
 import { formatPrice } from "../../util/formatPrice";
 import { Card } from "../ui/Card";
-import { TooltipButton } from "./TooltipButton";
-import { TooltipCard } from "./TooltipCard";
+import { TooltipTrigger } from "./tooltip/TooltipTrigger";
+import { Tooltip } from "./tooltip/Tooltip";
 import { Button } from "../ui/Button";
 import { useState } from "react";
 
@@ -28,8 +28,8 @@ export function ProductCard({ item }) {
 
   return (
     <Card className="bg-[#FCFCFC] rounded-md relative sm:pb-3 sm:pt-6 max-w-sm sm:max-w-none mx-auto sm:mx-0">
-      <TooltipButton onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
-      <TooltipCard item={item} isShown={showTooltip} isLeft={isLeft} />
+      <TooltipTrigger onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
+      <Tooltip item={item} isShown={showTooltip} isLeft={isLeft} />
       <div className="aspect-square w-4/5 mx-auto relative mb-5">
         <img
           src={item.imageUrl}

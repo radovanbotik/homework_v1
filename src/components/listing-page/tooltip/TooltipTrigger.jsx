@@ -1,8 +1,8 @@
-import tooltipStatic from "../../assets/tooltip-static.svg";
-import tooltipHover from "../../assets/tooltip-hover.svg";
-import { cn } from "../../util/cn.js";
+import tooltipStatic from "../../../assets/tooltip-static.svg";
+import tooltipHover from "../../../assets/tooltip-hover.svg";
+import { cn } from "../../../util/cn.js";
 
-export function TooltipButton({ onMouseEnter, onMouseLeave }) {
+export function TooltipTrigger({ onMouseEnter, onMouseLeave }) {
   return (
     <button
       role="button"
