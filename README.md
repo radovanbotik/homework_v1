@@ -91,8 +91,8 @@ To keep the user experience smooth, the cart is built as a modal. It uses a **Re
 
 #### Components involved:
 
-- `html <ShoppingButton />` — opens the cart
-- `html <ShoppingCard />` — displays cart contents
+- `html <CartToggle />` — opens the cart
+- `html <MiniCart />` — displays cart contents
 - `html <Backdrop />` — dims the background and allows for outside-click detection
 
 #### Handling outside clicks:
@@ -105,7 +105,7 @@ const [showCart, setIsShowCart] = useState(false);
 
 A `useEffect` listener on `window` watches for clicks. If the user clicks on anything **except** the cart, the backdrop, or the button, the cart closes.
 
-- Components like `<ShoppingCard />` and `<ShoppingButton />` have IDs to help detect valid clicks.
+- Components like `<MiniCart />` and `<CartToggle />` have IDs to help detect valid clicks.
 - `pointer-events: none` and `stopPropagation()` are used to help control event flow and prevent unwanted closing.
 
 ---

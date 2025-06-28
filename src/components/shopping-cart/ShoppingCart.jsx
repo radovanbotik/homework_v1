@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { ShoppingButton } from "./ShoppingButton";
-import { ShoppingCard } from "./ShoppingCard";
+import { CartToggle } from "./CartToggle";
+import { MiniCart } from "./mini-cart/MiniCart";
 import { createPortal } from "react-dom";
 import { Backdrop } from "./Backdrop";
 import { useCart } from "../../store/CartContext";
@@ -27,12 +27,12 @@ export function ShoppingCart() {
     <>
       {createPortal(
         <>
-          <ShoppingCard />
+          <MiniCart />
           <Backdrop />
         </>,
         document.getElementById("portal")
       )}
-      <ShoppingButton />
+      <CartToggle />
     </>
   );
 }

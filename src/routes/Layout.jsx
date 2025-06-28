@@ -3,7 +3,6 @@ import { Navbar } from "../components/navigation/Navbar";
 import { Toaster } from "react-hot-toast";
 import bg from "../assets/bg.png";
 import Container from "../components/ui/Container";
-import { Backdrop } from "../components/shopping-cart/Backdrop";
 
 export default function RootLayout() {
   return (

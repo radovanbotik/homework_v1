@@ -7,7 +7,7 @@ export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   const [showCart, setIsShowCart] = useState(false);
   const [anchorCoordinates, setAnchorCoordinates] = useState({});
-  const shoppingButtonRef = useRef(null);
+  const CartToggleRef = useRef(null);
 
   function addToCart(item) {
     setCartItems(prev => {
@@ -26,8 +26,8 @@ export function CartProvider({ children }) {
   }
 
   function getAnchorCoordinates() {
-    const anchorRect = shoppingButtonRef.current.getBoundingClientRect();
-    console.log(shoppingButtonRef.current);
+    const anchorRect = CartToggleRef.current.getBoundingClientRect();
+    console.log(CartToggleRef.current);
     const rightOffScreen = window.innerWidth - anchorRect.right;
     setAnchorCoordinates(prev => ({ ...prev, right: rightOffScreen }));
   }
@@ -53,7 +53,7 @@ export function CartProvider({ children }) {
 
   return (
     <cartContext.Provider
-      value={{ anchorCoordinates, cartItems, showCart, addToCart, toggleCart, closeCart, shoppingButtonRef }}
+      value={{ anchorCoordinates, cartItems, showCart, addToCart, toggleCart, closeCart, CartToggleRef }}
     >
       {children}
     </cartContext.Provider>
