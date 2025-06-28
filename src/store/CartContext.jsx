@@ -6,8 +6,8 @@ const cartContext = createContext(null);
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   const [showCart, setIsShowCart] = useState(false);
-  const shoppingButtonRef = useRef(null);
   const [anchorCoordinates, setAnchorCoordinates] = useState({});
+  const shoppingButtonRef = useRef(null);
 
   function addToCart(item) {
     setCartItems(prev => {
@@ -29,7 +29,7 @@ export function CartProvider({ children }) {
     const anchorRect = shoppingButtonRef.current.getBoundingClientRect();
     console.log(shoppingButtonRef.current);
     const rightOffScreen = window.innerWidth - anchorRect.right;
-    setAnchorCoordinates(prev => ({ ...prev, x: anchorRect.x, width: anchorRect.width, right: rightOffScreen }));
+    setAnchorCoordinates(prev => ({ ...prev, right: rightOffScreen }));
   }
 
   function toggleCart(e) {
