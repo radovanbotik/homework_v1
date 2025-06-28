@@ -11,7 +11,6 @@ export function ShoppingCart() {
   function handleClick(e) {
     if (e.target.id === "cart" || e.target.id === "shopping-button") return;
     else {
-      console.log(e.target);
       return closeCart();
     }
   }

@@ -8,7 +8,7 @@ export default function RootLayout() {
   return (
     <>
       <Navbar />
-      <div className="relative isolate w-full h-full ">
+      <div className="relative isolate w-full h-[calc(100%-3rem)]">
         <Container className="absolute inset-0 -z-10">
           <img
             src={bg}
