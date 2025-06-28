@@ -5,8 +5,10 @@ import { TooltipTrigger } from "./tooltip/TooltipTrigger";
 import { Tooltip } from "./tooltip/Tooltip";
 import { Button } from "../ui/Button";
 import { useState } from "react";
+import { ProductImage } from "./ProductImage";
+import { ProductInfo } from "./ProductInfo";
 
-export function ProductCard({ item }) {
+export function Product({ item }) {
   const { addToCart } = useCart();
   const price = formatPrice({ price: item.price });
   const [showTooltip, setShowTooltip] = useState(false);
@@ -30,15 +32,8 @@ export function ProductCard({ item }) {
     <Card className="bg-[#FCFCFC] rounded-md relative sm:pb-3 sm:pt-6 max-w-sm sm:max-w-none mx-auto sm:mx-0">
       <TooltipTrigger onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
       <Tooltip item={item} isShown={showTooltip} isLeft={isLeft} />
-      <div className="aspect-square w-4/5 mx-auto relative mb-5">
-        <img
-          src={item.imageUrl}
-          alt={`image preview of product ${item.name}`}
-          className="block border-0 w-full h-full object-scale-down absolute left-0 top-0 inset-0 "
-        />
-      </div>
-      <div className="text-[#1D1D39] lg:text-base font-medium mb-1">{item.name}</div>
-      <div className="text-[#1D1D39] lg:text-sm font-bold mb-1">{price}</div>
+      <ProductImage imageSrc={item.imageUrl} alt={`${item.description}`} />
+      <ProductInfo attributes={[item.name, price]} />
       <Button className="w-full mt-2 py-2.5" onClick={() => addToCart(item)}>
         Add to Cart
       </Button>
