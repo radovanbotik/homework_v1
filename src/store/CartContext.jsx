@@ -77,11 +77,10 @@ export function CartProvider({ children }) {
   useLayoutEffect(() => {
     if (showCart) {
       window.addEventListener("resize", getAnchorCoordinates);
-      return () => {
-        window.removeEventListener("resize", getAnchorCoordinates);
-      };
     }
-    return () => {};
+    return () => {
+      window.removeEventListener("resize", getAnchorCoordinates);
+    };
   }, [showCart]);
 
   return (
