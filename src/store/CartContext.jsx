@@ -60,7 +60,6 @@ export function CartProvider({ children }) {
 
   function getAnchorCoordinates() {
     const anchorRect = CartToggleRef.current.getBoundingClientRect();
-    console.log(CartToggleRef.current);
     const rightOffScreen = window.innerWidth - anchorRect.right;
     setAnchorCoordinates(prev => ({ ...prev, right: rightOffScreen }));
   }

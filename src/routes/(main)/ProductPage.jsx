@@ -1,11 +1,12 @@
 import { Link, useParams } from "react-router";
 import { Button } from "../../components/ui/Button";
 import { data } from "../../data/data";
-import { formatPrice } from "../../util/formatPrice";
 import Container from "../../components/ui/Container";
 import { TooltipFeatureItemRow } from "../../components/listing-page/tooltip/TooltipFeatureItemRow";
 import { Card } from "../../components/ui/Card";
 import { useCart } from "../../store/CartContext";
+import { ProductImage } from "../../components/product-page/ProductImage";
+import { ProductHeader } from "../../components/product-page/ProductHeader";
 
 export default function ProductPage() {
   const { productId } = useParams();
@@ -15,18 +16,12 @@ export default function ProductPage() {
   const product = data.find(p => p.id === productId);
 
   return (
-    <Container>
-      <Card className="flex flex-col sm:flex-row items-start gap-8 bg-white max-w-4xl mx-auto ">
-        <img
-          alt={product.description}
-          src={product.imageUrl}
-          className="aspect-square object-scale-down sm:rounded-lg sm:w-60 w-40 block"
-        />
+    <Container className="pt-16">
+      <Card className="flex flex-col sm:flex-row items-start bg-white max-w-4xl mx-auto ">
+        <ProductImage imageUrl={product.imageUrl} alt={product.description} />
 
         <div>
-          <h3 className="text-2xl font-bold tracking-tight text-gray-900">{product.name}</h3>
-          <p className="text-xl tracking-tight text-gray-900">{formatPrice({ price: product.price })}</p>
-          <p className="space-y-6 text-base text-gray-700">{product.description}</p>
+          <ProductHeader description={product.description} name={product.name} price={product.price} />
           <Link to={".."} path="relative" className="text-red-500 mr-4">
             Continue shopping
           </Link>
@@ -36,7 +31,9 @@ export default function ProductPage() {
           </Button>
           <div className="pt-5">
             {product.features.map(feature => (
-              <ul className="space-y-4">{<TooltipFeatureItemRow feature={feature} />}</ul>
+              <ul key={feature.name} className="space-y-4">
+                {<TooltipFeatureItemRow feature={feature} />}
+              </ul>
             ))}
           </div>
         </div>
