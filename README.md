@@ -1,17 +1,17 @@
 ## Disclaimer
 
 > This README has been revised with the help of AI to improve clarity, structure, and tone.
-> If you're interested in the original unedited version, you can find it in the file `SRC_README.md`.
+> If you're interested in the original, unedited version, you can find it in the file `SRC_README.md`.
 
 ---
 
 ## Routing
 
-All route definitions are in `src/routes/main`. I’ve loosely followed a Next.js-inspired structure that groups routes under shared layouts. This isn’t a technical requirement for the app, but I find it useful for keeping things organized and easier to scale.
+All route definitions are in `src/routes/main`. The structure loosely follows a Next.js-inspired layout grouping, where routes are organized under shared layouts. This is not a technical requirement but helps keep the project organized and scalable.
 
 ### Shared Layout
 
-The shared layout includes global UI elements like the `html <Navbar />`, which is rendered on all routes. I’ve also added `ErrorPage` and `LoadingPage` components to provide fallback and loading states, improving overall user experience.
+The shared layout includes global UI elements such as the `<Navbar />`, which is rendered across all routes. It also includes a fallback error state using the `ErrorPage` component to improve user experience in case of failures.
 
 ---
 
@@ -19,102 +19,154 @@ The shared layout includes global UI elements like the `html <Navbar />`, which 
 
 ### Home Page
 
-This is a basic welcome screen and serves as the entry point for users to explore the app. Its main goal is to help users quickly find and navigate to the core features.
+The home page acts as a simple welcome screen and the main entry point to the application. Its goal is to help users quickly find and navigate to key features.
 
 ---
 
 ### Listing Page
 
-This page renders a list of products using mock data, which is structured in a normalized way. Even though it doesn't match the product images exactly, the structure reflects how a real backend might deliver data.
+This page renders a list of products using mock data, structured in a normalized format. While the product data may not match the images exactly, the structure reflects a realistic API response.
 
-#### Rendering flow:
+#### Rendering Flow
 
-1. Product data is passed to `html <ProductList />`.
-2. `html <ProductList />` renders multiple `html <ProductCard />` components.
+1. Product data is passed to `<ProductList />`
+2. `<ProductList />` renders multiple `<ProductCard />` components
 
 Each `ProductCard` includes:
 
 - An image
 - A title
 - A formatted price
-- A tooltip button (`html <TooltipButton />`) that displays `html <TooltipCard />` when hovered
+- A tooltip trigger (`<TooltipTrigger />`) that displays a `<Tooltip />` on hover
 
-#### Tooltip behavior:
+#### Tooltip Behavior
 
-Tooltip visibility is handled using:
+Tooltip visibility is managed using:
 
 ```js
 const [showTooltip, setShowTooltip] = useState(false);
 ```
 
-Tooltips are positioned next to the card by default, but on smaller screens they may overflow off the right edge. To fix this, I track proximity to the right edge using:
+Tooltips are positioned to the right of the card by default. On smaller screens, they may overflow. To handle this, we check proximity to the right edge:
 
 ```js
 const [isLeft, setIsLeft] = useState(false);
 ```
 
-If the card is too close to the right edge (less than the tooltip width of 320px), the tooltip gets rendered on the left instead.
+If the card is too close to the edge (less than 320px available), the tooltip is displayed on the left instead.
 
-> _Note to self: still need to add handling explanation for `mousedown` and `mouseleave`._
+> Note: Tooltip behavior for `mousedown` and `mouseleave` events still needs to be documented.
 
-#### Price formatting:
+#### Price Formatting
 
-There’s a utility function to format prices consistently across the app:
+Prices are formatted using a utility function:
 
 ```js
 function formatPrice({ locale = "en-GB", style = "currency", currency = "GBP", decimals = 0, price }) {}
 ```
 
-It supports international formats and includes the currency symbol, which will be useful in a multi-region setup.
+This ensures consistent price formatting and supports internationalization, including currency symbols for a multi-region setup.
 
-#### Add to cart:
+#### Add to Cart
 
-Each `ProductCard` has a button that adds the item to the cart via:
+Each `ProductCard` includes a button that adds the item to the cart via:
 
 ```js
 function addToCart(item) {}
 ```
 
-This function checks if the item is already in the cart and either increments the count or adds it with `count: 1`.
+This function checks if the item already exists in the cart. If so, it increments the count; otherwise, it adds the item with `count: 1`.
+
+---
+
+### Product Page
+
+The Product Page displays detailed information about a single product.
+
+To identify which product to show, the page uses the `useParams()` hook to extract the `productId` from the URL. In this demo, the product data is local, so the page simply loops through that dataset to find the matching product.
+
+In a real-world scenario with a backend, the `productId` would be used to fetch product details from an API.
+
+This dynamic behavior is enabled by defining the route like so:
+
+```js
+{ path: ":productId", Component: ProductPage }
+```
+
+This allows the router to interpret the `productId` as a route parameter and enables usage of `useParams()` inside the component.
 
 ---
 
 ### Checkout Page
 
-This page is a simple summary of the user's selected items and is meant to be the final step before completing the order.
+This page summarizes selected cart items and serves as the final step before completing an order.
+
+Users can:
+
+- Increase quantity using the existing `addToCart(item)` function
+- Decrease quantity using a custom `removeFromCart(item)` function
+- Remove items completely using the `destroyCartItem(item)` function
+
+#### destroyCartItem
+
+The `destroyCartItem(item)` function removes an item from the cart entirely. It filters the current `cartItems` array and returns a new array excluding the item with a matching ID. This ensures the targeted item is removed cleanly without mutating the original state.
+
+#### removeFromCart
+
+The `removeFromCart(item)` function handles decreasing the quantity of a cart item and removing it if its count drops to zero.
+
+Here's how it works:
+
+1. The function loops through the `cartItems` array.
+2. For each item:
+
+   - If its ID **does not match**, it is returned as-is.
+   - If its ID **does match**:
+
+     - If `count > 1`, it is returned with `count` reduced by 1.
+     - If `count` is 1, it is removed by returning `null`.
+
+3. The final array is filtered to remove `null` values, leaving only valid cart items.
+
+This logic ensures a clean and immutable update of the cart state.
+
+The checkout view displays:
+
+- Current quantity
+- Price per unit
+- Total order price
+
+The "Checkout" button is disabled, as this marks the end of the flow for the demo.
 
 ---
 
 ### Shopping Cart
 
-To keep the user experience smooth, the cart is built as a modal. It uses a **React Portal** so that it’s rendered outside the main DOM structure, which allows it to overlay everything else cleanly.
+The shopping cart is implemented as a modal and rendered via a React Portal to overlay the main content cleanly.
 
-#### Components involved:
+#### Components Involved
 
-- `html <CartToggle />` — opens the cart
-- `html <MiniCart />` — displays cart contents
-- `html <Backdrop />` — dims the background and allows for outside-click detection
+- `<CartToggle />` — toggles cart visibility
+- `<MiniCart />` — displays cart contents
+- `<Backdrop />` — dims the background and allows outside-click detection
 
-#### Handling outside clicks:
+#### Outside Click Handling
 
-Cart visibility is controlled using:
+Once the cart is open, the user has only three meaningful click targets within the document:
 
-```js
-const [showCart, setIsShowCart] = useState(false);
-```
+- **The cart itself** – clicking inside the cart keeps it open.
+- **The cart toggle button** – toggles the cart’s visibility (open or close).
+- **The backdrop** – clicking the backdrop closes the cart.
 
-A `useEffect` listener on `window` watches for clicks. If the user clicks on anything **except** the cart, the backdrop, or the button, the cart closes.
-
-- Components like `<MiniCart />` and `<CartToggle />` have IDs to help detect valid clicks.
-- `pointer-events: none` and `stopPropagation()` are used to help control event flow and prevent unwanted closing.
+This is implemented using a `useEffect` hook that adds a `window` click listener. The logic identifies which element was clicked and acts accordingly. This modal strategy is commonly used to improve user experience when working with overlays by allowing users to easily dismiss them with a click outside.
 
 ---
 
 ## Global State
 
-Global cart state is managed in `src/store/CartContext.jsx` using React’s Context API. This helps avoid prop drilling and keeps shared logic centralized and reusable.
+Cart state is managed in `src/store/CartContext.jsx` using React's Context API. This avoids prop drilling and keeps shared logic centralized.
 
-### Key state variables:
+### Key State Variables
 
 1. **Cart Items**
 
@@ -122,10 +174,13 @@ Global cart state is managed in `src/store/CartContext.jsx` using React’s Cont
    const [cartItems, setCartItems] = useState([]);
    ```
 
-   - Items are added with `addToCart(item)`
-   - If the item already exists, its count is incremented
-   - Otherwise, a new item is added with `count: 1`
-   - Uses immutable state updates with spread syntax
+   - Items are added using `addToCart(item)`
+   - Existing items have their count incremented
+   - New items are added with `count: 1`
+   - State updates are immutable using the spread operator
+
+   **Note:** In this demo app, each cart operation function (e.g., `addToCart`, `removeFromCart`, `destroyCartItem`) receives the **entire item object** rather than just the item's ID. This simplifies the logic since no data fetching is involved.
+   In a production app with a real backend, you would likely pass only the item's ID and fetch the rest of the necessary data as needed.
 
 2. **Cart Visibility**
 
@@ -133,7 +188,7 @@ Global cart state is managed in `src/store/CartContext.jsx` using React’s Cont
    const [showCart, setIsShowCart] = useState(false);
    ```
 
-   - Controls whether the cart modal is open
+   - Controls visibility of the modal cart
 
 3. **Anchor Coordinates**
 
@@ -141,75 +196,67 @@ Global cart state is managed in `src/store/CartContext.jsx` using React’s Cont
    const [anchorCoordinates, setAnchorCoordinates] = useState({});
    ```
 
-   - Tracks the position of the cart open button
-   - Needed because the cart modal is rendered via portal, so we manually anchor it using coordinates
-   - Uses `getAnchorCoordinates()` to read the button’s DOM bounding box
+   - Tracks position of the cart toggle button
+   - Used to anchor the modal cart via portal rendering
+   - Coordinates are updated using `getAnchorCoordinates()`
 
-#### Layout handling:
+#### Layout Handling
 
-I used `useLayoutEffect` to run `getAnchorCoordinates()` when the window resizes. It ensures the cart is always positioned correctly, even as paddings or layouts shift across screen sizes. I could have used `useEffect`, but `useLayoutEffect` runs earlier and ensures layout calculations happen after DOM painting.
+`useLayoutEffect` is used to recalculate `getAnchorCoordinates()` on window resize, ensuring accurate positioning even when padding or layout changes. It runs earlier than `useEffect`, making it more suitable for layout-related adjustments.
 
-#### Extra helpers:
+#### Helpers
 
-- A custom `useCart()` hook is included to make it easy to consume context throughout the app.
-- Toast messages are shown when items are added to the cart for better UX feedback.
+- A custom `useCart()` hook provides access to cart context across the app
+- Toast messages are shown when items are added to the cart for better feedback
 
 ---
 
 ## Components
 
-All components live under `src/components`.
+All components are located under `src/components`.
 
 ### UI Components
 
-Reusable, app-wide components (like buttons, tooltips, etc.) are stored in:
+Reusable components like buttons and tooltips live in:
 
 ```
 src/components/ui
 ```
 
-These are built to be flexible and used anywhere.
+These components are generic and designed to be used throughout the app.
 
 ### Feature-Specific Components
 
-Components that only relate to a specific route or feature are colocated with that feature. This keeps the structure modular and maintainable as the project grows.
+Components tied to specific features or pages are colocated with their respective feature folders. This improves modularity and maintainability as the app grows.
 
 ---
 
 ## Utility Functions
 
-Helper functions live in:
+Helper functions are stored in:
 
 ```
 src/util
 ```
 
-These functions keep things modular and reduce clutter in components.
+These keep components clean and promote code reuse.
 
 ### Noteworthy Utility: `cn.js`
 
-This is a simple helper that merges Tailwind class names and resolves any conditional conflicts. It’s super helpful when dealing with dynamic styling and helps keep class lists clean and reliable.
+This helper merges Tailwind class names and resolves conditional conflicts. It simplifies dynamic styling and keeps class lists more maintainable.
 
 ---
 
 ## Colors
 
-Here’s the full list of colors used across the application:
+List of primary colors used in the application:
 
-- **Navbar Background Color:** `#233239`
-
-- **Navbar Text Color:** `#FFFFFF`
-
-- **Button Background Color:** `#E60000`
-
-- **Button Text Color:** `#FFFFFF`
-
-- **Card Background Color:** `#FCFCFC`
-
-- **Text Primary:** `#1D1D39`
-
-- **Text Secondary:** `#FFFFFF`
-
-- **Tooltip Background Color:** `#FDF1D7`
-
-- **Tooltip Muted Text Color:** `#756C67`
+- **Navbar Background:** `#233239`
+- **Navbar Text:** `#FFFFFF`
+- **Button Background:** `#E60000`
+- **Button Text:** `#FFFFFF`
+- **Card Background:** `#FCFCFC`
+- **Primary Text:** `#1D1D39`
+- **Secondary Text:** `#FFFFFF`
+- **Tooltip Background:** `#FDF1D7`
+- **Tooltip Muted Text:** `#756C67`

@@ -8,7 +8,6 @@ import Container from "../../components/ui/Container";
 export default function Checkout() {
   const { cartItems } = useCart();
   const totalPrice = getTotal(cartItems);
-
   const hasItems = cartItems.length !== 0;
 
   return (
