@@ -148,7 +148,7 @@ The shopping cart is implemented as a modal and rendered via a React Portal to o
 
 - `<CartToggle />` — toggles cart visibility
 - `<MiniCart />` — displays cart contents
-- `<Backdrop />` — dims the background and allows outside-click detection
+- `<Backdrop />` — provides an overlay over clickable surface and allows outside-click detection
 
 #### Outside Click Handling
 
@@ -173,11 +173,6 @@ Cart state is managed in `src/store/CartContext.jsx` using React's Context API. 
    ```js
    const [cartItems, setCartItems] = useState([]);
    ```
-
-   - Items are added using `addToCart(item)`
-   - Existing items have their count incremented
-   - New items are added with `count: 1`
-   - State updates are immutable using the spread operator
 
    **Note:** In this demo app, each cart operation function (e.g., `addToCart`, `removeFromCart`, `destroyCartItem`) receives the **entire item object** rather than just the item's ID. This simplifies the logic since no data fetching is involved.
    In a production app with a real backend, you would likely pass only the item's ID and fetch the rest of the necessary data as needed.
