@@ -18,8 +18,8 @@ export function ShoppingCart() {
   useEffect(() => {
     if (showCart) {
       window.addEventListener("click", handleClick);
-      return () => window.removeEventListener("click", handleClick);
     }
+    return () => window.removeEventListener("click", handleClick);
   }, [showCart]);
 
   return (
