@@ -12,17 +12,22 @@ function App() {
     {
       path: "/",
       Component: RootLayout,
-      errorElement: <ErrorPage />,
       children: [
-        { index: true, Component: HomePage },
         {
-          path: "listing-page",
+          errorElement: <ErrorPage />,
           children: [
-            { index: true, Component: ListingPage },
-            { path: ":productId", Component: ProductPage },
+            { index: true, Component: HomePage },
+            {
+              path: "listing-page",
+              children: [
+                { index: true, Component: ListingPage },
+                { path: ":productId", Component: ProductPage },
+              ],
+            },
+            { path: "checkout", Component: Checkout },
+            { path: "*", Component: ErrorPage },
           ],
         },
-        { path: "checkout", Component: Checkout },
       ],
     },
   ]);

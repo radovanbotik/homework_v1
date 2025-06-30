@@ -1,5 +1,4 @@
 import { ShoppingCart } from "../shopping-cart/ShoppingCart";
-import { Button } from "../ui/Button";
 import Container from "../ui/Container";
 import { Logo } from "./Logo";
 
