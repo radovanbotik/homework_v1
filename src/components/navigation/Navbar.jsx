@@ -5,9 +5,11 @@ import { Logo } from "./Logo";
 
 export function Navbar() {
   return (
-    <Container className={"bg-[#233239] flex w-full relative items-center h-12 text-white "}>
-      <Logo />
-      <ShoppingCart />
-    </Container>
+    <div className="bg-[#233239]">
+      <Container className="flex w-full relative items-center h-12 text-white">
+        <Logo />
+        <ShoppingCart />
+      </Container>
+    </div>
   );
 }

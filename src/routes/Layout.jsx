@@ -9,14 +9,14 @@ export default function RootLayout() {
     <>
       <Navbar />
       <div className="relative isolate w-full h-[calc(100%-3rem)]">
-        <Container className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 -z-10">
           <img
             src={bg}
             alt="background image"
             aria-label="hidden"
             className="absolute inset-0 object-cover w-full h-full"
           />
-        </Container>
+        </div>
         <Outlet />
         <Toaster position="bottom-right" />
       </div>
